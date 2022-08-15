@@ -47,7 +47,7 @@ class HtmlPieces
                 break;
 
             case "year":
-                $patterns = ["section section div div div ul li a", ".title_wrapper h1 #titleYear a", ".title_wrapper .subtext a[title='See more release dates']"];
+                $patterns = ["section section div div div ul li a[href*='releaseinfo']", ".title_wrapper h1 #titleYear a", ".title_wrapper .subtext a[title='See more release dates']"];
                 $year = $this->findMatchInPatterns($dom, $page, $patterns);
 
                 // Detect OLD IMDB + TV show
@@ -289,7 +289,7 @@ class HtmlPieces
                                     $rowText = $dom->find($sectionRow, 'td.result_text');
                                     $rowText = preg_match_all('~\b\d{4}\b\+?~', $rowText, $matches);
                                     $row["year"] = end($matches[0]);
-                                    
+
                                     $row["image"] = $dom->find($sectionRow, 'td.primary_photo img')->src;
                                     if (preg_match('/@/', $row["image"]))
                                     {
