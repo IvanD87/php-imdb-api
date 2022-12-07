@@ -254,49 +254,33 @@ class HtmlPieces
                 break;
 
             case "titles":
-            case "names":
-            case "companies":
+            // case "names":
+            // case "companies":
                 $response = [];
-                $sections = $dom->find($page, ".findSection");
-                if ($this->count($sections) > 0)
+                $section = $dom->find($page, "section[data-testid='find-results-section-title']");
+                
+                $sectionRows = $section->find("li");
+                foreach ($sectionRows as $sectionRow)
                 {
-                    foreach ($sections as $section)
-                    {
-                        $sectionName = @strtolower($section->find(".findSectionHeader")->text);
-                        if ($sectionName === $element) {
-                            $sectionRows = $section->find(".findList tr");
-                            if ($this->count($sectionRows) > 0)
-                            {
-                                foreach ($sectionRows as $sectionRow)
-                                {
-                                    $row = [];
-
-                                    $link = $dom->find($sectionRow, 'td.result_text a');
-                                    $row["title"] = $link->text;
-                                    if ($row["title"] == "") {
-                                        continue;
-                                    }
-                                    $rowText = $dom->find($sectionRow, 'td.result_text');
-                                    $rowText = preg_match_all('~\b\d{4}\b\+?~', $rowText, $matches);
-                                    $row["year"] = end($matches[0]);
-
-                                    $row["image"] = $dom->find($sectionRow, 'td.primary_photo img')->src;
-                                    if (preg_match('/@/', $row["image"]))
-                                    {
-                                        $row["image"] = preg_split('~@(?=[^@]*$)~', $row["image"])[0] . "@.jpg";
-                                    }
-                                    $row["image"] = empty($row["image"]) ? "" : $row["image"];
-
-                                    $row["id"] = $this->extractImdbId($link->href);
-
-                                    array_push($response, $row);
-                                }
-                            }
-                        }
+                    $link = $dom->find($sectionRow, 'a');
+                    $row["id"] = $this->extractImdbId($link->href);
+                    $row["title"] = $link->text;
+                    if ($row["title"] == "") {
+                        continue;
                     }
+                    $row["image"] = $dom->find($sectionRow, 'img')->src;
+                    if (preg_match('/@/', $row["image"]))
+                    {
+                        $row["image"] = preg_split('~@(?=[^@]*$)~', $row["image"])[0] . "@.jpg";
+                    }
+                    $row["image"] = empty($row["image"]) ? "" : $row["image"];
+                    $year = $dom->find($sectionRow, 'ul li label')[0]->text;
+                    $row["year"] = $year;
+                    array_push($response, $row);
+                    // var_dump($row);
+                    // var_dump($link->innerHtml);die;
                 }
                 return $response;
-                break;
 
             default:
                 return "";
