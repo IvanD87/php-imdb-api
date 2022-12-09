@@ -25,6 +25,7 @@ class Imdb
             'category'     => 'all',
             'curlHeaders'  => ['Accept-Language: en-US,en;q=0.5'],
             'techSpecs'    => true,
+            'type'         => '', //ft for movies, tv for series
         ];
 
         //  Merge any user options with the default ones
@@ -153,7 +154,7 @@ class Imdb
         $search_url = urlencode(urldecode($search));
 
         //  Load imdb search page and parse the dom
-        $page = $dom->fetch("https://www.imdb.com/find?q=$search_url&s=".$options["category"], $options);
+        $page = $dom->fetch("https://www.imdb.com/find?q=$search_url&s=".$options["category"].'&ttype='.$options["type"], $options);
 
         //  Add all search data to response $store
         $response->add("titles", $htmlPieces->get($page, "titles"));
