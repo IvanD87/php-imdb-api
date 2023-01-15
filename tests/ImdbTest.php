@@ -82,6 +82,7 @@ class ImdbTest extends TestCase {
     public function testSearch()
     {
         $imdb = new Imdb;
+
         $search = $imdb->search('digging into china',["category"=>"tt","type"=>"ft"]);
         $this->assertEquals('tt0118980', $search['titles'][0]['id']);
         $this->assertEquals('1997', $search['titles'][0]['year']);
@@ -92,7 +93,6 @@ class ImdbTest extends TestCase {
         $this->assertEquals('2014', $search['titles'][0]['year']);
         
         $search_2 = $imdb->search('The Life and Death of Colonel Blimp');
-
 		$this->assertEquals('The Life and Death of Colonel Blimp', $search_2['titles'][0]['title']);
 		$this->assertEquals('tt0036112', $search_2['titles'][0]['id']);
         $this->assertEquals('1943', $search_2['titles'][0]['year']);

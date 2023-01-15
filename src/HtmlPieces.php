@@ -274,11 +274,15 @@ class HtmlPieces
                         $row["image"] = preg_split('~@(?=[^@]*$)~', $row["image"])[0] . "@.jpg";
                     }
                     $row["image"] = empty($row["image"]) ? "" : $row["image"];
-                    $year = $dom->find($sectionRow, 'ul li label')[0]->text;
-                    $row["year"] = $year;
+
+                    $row["year"] = "0"; 
+                    $findYear = $dom->find($sectionRow, 'ul li label');
+                    if ($this->count($findYear)) {
+                        $year = $dom->find($sectionRow, 'ul li label')[0]->text;
+                        $row["year"] = $year;    
+                    }
                     array_push($response, $row);
                     // var_dump($row);
-                    // var_dump($link->innerHtml);die;
                 }
                 return $response;
 
