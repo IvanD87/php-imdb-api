@@ -120,3 +120,13 @@ Search IMDB to return an array of films, people and companies
 
 -   [php-html-parser](https://github.com/paquettg/php-html-parser)
 -   [filebase](https://github.com/tmarois/Filebase)
+
+## Dev
+
+To run test
+
+```
+vendor/phpunit/phpunit/phpunit --filter=ImdbTest::testFilm
+
+composer test
+```

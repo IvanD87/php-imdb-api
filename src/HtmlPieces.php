@@ -27,7 +27,7 @@ class HtmlPieces
 
         switch ($element) {
             case "title":
-                $patterns = ["h1[data-testid=hero-title-block__title]", ".title_wrapper h1"];
+                $patterns = ["h1[data-testid=hero__pageTitle] span"];
                 $title = $this->findMatchInPatterns($dom, $page, $patterns);
 
                 return $this->strClean($title);
