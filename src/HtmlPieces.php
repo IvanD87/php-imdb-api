@@ -276,13 +276,12 @@ class HtmlPieces
                     $row["image"] = empty($row["image"]) ? "" : $row["image"];
 
                     $row["year"] = "0"; 
-                    $findYear = $dom->find($sectionRow, 'ul li label');
+                    $findYear = $dom->find($sectionRow, 'ul li span');
                     if ($this->count($findYear)) {
-                        $year = $dom->find($sectionRow, 'ul li label')[0]->text;
+                        $year = $dom->find($sectionRow, 'ul li span')[0]->text;
                         $row["year"] = $year;    
                     }
                     array_push($response, $row);
-                    // var_dump($row);
                 }
                 return $response;
 
